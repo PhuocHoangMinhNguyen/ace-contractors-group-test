@@ -1,6 +1,7 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { Line } from './../model/line';
+import { catchError, finalize } from "rxjs/operators";
+import { Line } from '../model/line.model';
 import { BodyService } from './body.service';
 
 export class TableDataSource implements DataSource<Line> {
@@ -12,6 +13,17 @@ export class TableDataSource implements DataSource<Line> {
     public loading$ = this.loadingSubject.asObservable();
 
     constructor(private bodyService: BodyService) { }
+
+    loadTable() {
+        this.loadingSubject.next(true);
+
+        this.bodyService.getLines();
+
+        this.bodyService.getLineUpdateListener().pipe(
+            catchError(() => of([])),
+            finalize(() => this.loadingSubject.next(false))
+        ).subscribe(lines => this.linesSubject.next(lines));
+    }
 
     connect(collectionViewer: CollectionViewer): Observable<Line[]> {
         console.log('Connecting data source');

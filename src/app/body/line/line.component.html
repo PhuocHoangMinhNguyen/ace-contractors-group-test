@@ -1,0 +1,19 @@
+<mat-card class="mat-elevation-z8 app-line">
+    <form (submit)="onAddLine(lineForm)" #lineForm='ngForm'>
+        <mat-form-field>
+            <input matInput type="text" name="item" ngModel required minlength="3" placeholder="Item" #item="ngModel">
+            <mat-error *ngIf="item.invalid">Please enter an item.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="number" name="rate" ngModel required minlength="3" placeholder="Item rate"
+                #rate="ngModel">
+            <mat-error *ngIf="rate.invalid">Please enter an item rate.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="number" name="quantity" ngModel required minlength="3" placeholder="Quantity"
+                #quantity="ngModel">
+            <mat-error *ngIf="rate.invalid">Please enter a quantity.</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+    </form>
+</mat-card>

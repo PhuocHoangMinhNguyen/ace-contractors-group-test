@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { Line } from './../../model/line';
-import { BodyService } from './../../services/body.service';
+import { Subscription } from 'rxjs';
+import { Line } from '../../model/line.model';
+import { BodyService } from '../../services/body.service';
 import { TableDataSource } from './../../services/table.datasource';
 
 @Component({
@@ -10,8 +11,9 @@ import { TableDataSource } from './../../services/table.datasource';
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, OnDestroy, AfterViewInit {
     line: Line;
+    private linesSub: Subscription;
 
     dataSource: TableDataSource;
 
@@ -24,7 +26,17 @@ export class TableComponent implements OnInit, AfterViewInit {
     constructor(private bodyService: BodyService) { }
 
     ngOnInit() {
+        this.bodyService.getLines();
         this.dataSource = new TableDataSource(this.bodyService);
+        this.dataSource.loadTable();
+    }
+
+    onDelete(lineId: string) {
+        this.bodyService.deleteLine(lineId);
+    }
+
+    ngOnDestroy() {
+
     }
 
     ngAfterViewInit() {
