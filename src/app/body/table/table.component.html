@@ -1,0 +1,29 @@
+<div class="table">
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-table class="the-table mal-elevation-z8" [dataSource]="dataSource" matSort matSortActive="item"
+        matSortDirection="asc" matSortDisableClear>
+        <ng-container matColumnDef="item">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Item</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.item}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+            <mat-header-cell *matHeaderCellDef>Item Rate</mat-header-cell>
+            <mat-cell class="rate-cell" *matCellDef="let row">{{row.rate}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+            <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+            <mat-cell class="quantity-cell" *matCellDef="let row">{{row.quantity}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <!-- <mat-paginator [length]="course?.lessonsCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator> -->
+</div>

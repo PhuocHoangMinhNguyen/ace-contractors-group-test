@@ -5,11 +5,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header.component';
+import { TableComponent } from './body/table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
