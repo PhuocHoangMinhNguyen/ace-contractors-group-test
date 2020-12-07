@@ -8,7 +8,7 @@ const Line = require('./models/line');
 const app = express();
 
 mongoose.connect(
-    "", // MongoDB URL
+    "mongodb+srv://max:ewKcW28TfrJXGpK3@cluster0.yt8ea.mongodb.net/ace-test?retryWrites=true&w=majority", // MongoDB URL
     { useNewUrlParser: true, useUnifiedTopology: true }
 ).then(() => {
     console.log('Connected to database')
@@ -18,7 +18,7 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/", express.static(path.join(__dirname, "prod")));
+// app.use("/", express.static(path.join(__dirname, "prod")));
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -35,7 +35,9 @@ app.use((req, res, next) => {
 
 app.post("/api/lines", (req, res, next) => {
     const line = new Line({
-        item: req.body.item
+        item: req.body.item,
+        rate: req.body.rate,
+        quantity: req.body.quantity
     });
     line.save().then(createdLine => {
         res.status(201).json({
@@ -61,8 +63,8 @@ app.delete("/api/lines/:id", (req, res, next) => {
     });
 });
 
-app.use((req, res, next) => {
-    res.sendFile(path.join(__dirname, "prod", "index.html"));
-});
+// app.use((req, res, next) => {
+//     res.sendFile(path.join(__dirname, "prod", "index.html"));
+// });
 
 module.exports = app;
