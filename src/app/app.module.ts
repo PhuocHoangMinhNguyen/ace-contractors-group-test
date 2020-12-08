@@ -9,13 +9,17 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header.component';
 import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
+import { SumComponent } from './body/sum/sum.component';
+import { PrintComponent } from './body/print/print.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LineComponent,
-    TableComponent
+    TableComponent,
+    SumComponent,
+    PrintComponent
   ],
   imports: [
     BrowserModule,
