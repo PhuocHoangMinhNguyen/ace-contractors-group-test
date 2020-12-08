@@ -35,6 +35,6 @@ export class TableComponent implements OnInit {
     }
 
     calculateTotal() {
-        console.log("Sum");
+        return "Sum";
     }
 }
