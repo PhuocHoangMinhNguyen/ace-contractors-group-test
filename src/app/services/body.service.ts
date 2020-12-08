@@ -55,8 +55,4 @@ export class BodyService {
                 this.linesUpdated.next([...this.lines])
             });
     }
-
-    calculateSum() {
-        console.log("Sum")
-    }
 }
