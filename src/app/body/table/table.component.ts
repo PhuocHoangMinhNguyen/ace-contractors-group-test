@@ -11,6 +11,8 @@ import { TableDataSource } from './../../services/table.datasource';
 export class TableComponent implements OnInit {
     line: Line;
 
+    totalAmount: Number;
+
     dataSource: TableDataSource;
 
     displayedColumns = [
@@ -27,14 +29,14 @@ export class TableComponent implements OnInit {
         this.bodyService.getLines();
         this.dataSource = new TableDataSource(this.bodyService);
         this.dataSource.loadTable();
+        this.dataSource.getLines().subscribe(lines => {
+            this.totalAmount = lines
+                .reduce((total, line) => total + line.amount, 0)
+        })
     }
 
     onDelete(lineId: string) {
         console.log(lineId);
         this.bodyService.deleteLine(lineId);
-    }
-
-    calculateTotal() {
-        return "Sum";
     }
 }

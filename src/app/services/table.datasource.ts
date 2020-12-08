@@ -27,6 +27,10 @@ export class TableDataSource implements DataSource<Line> {
         });
     }
 
+    getLines() {
+        return this.linesSubject
+    }
+
     connect(collectionViewer: CollectionViewer): Observable<Line[]> {
         console.log('Connecting data source');
         return this.linesSubject.asObservable();

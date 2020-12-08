@@ -26,7 +26,7 @@
         <ng-container matColumnDef="amount">
             <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
-            <mat-footer-cell *matFooterCellDef>{{ calculateTotal() }}</mat-footer-cell>
+            <mat-footer-cell *matFooterCellDef>{{ totalAmount }}</mat-footer-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
