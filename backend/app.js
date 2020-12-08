@@ -37,7 +37,8 @@ app.post("/api/lines", (req, res, next) => {
     const line = new Line({
         item: req.body.item,
         rate: req.body.rate,
-        quantity: req.body.quantity
+        quantity: req.body.quantity,
+        amount: req.body.amount
     });
     line.save().then(createdLine => {
         res.status(201).json({
