@@ -22,7 +22,7 @@
 
         <ng-container matColumnDef="amount">
             <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
-            <mat-cell class="amount-cell" *matCellDef="let row">{{row.amount}}</mat-cell>
+            <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
