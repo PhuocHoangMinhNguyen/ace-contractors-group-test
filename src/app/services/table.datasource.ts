@@ -22,7 +22,9 @@ export class TableDataSource implements DataSource<Line> {
         this.bodyService.getLineUpdateListener().pipe(
             catchError(() => of([])),
             finalize(() => this.loadingSubject.next(false))
-        ).subscribe(lines => this.linesSubject.next(lines));
+        ).subscribe(lines => {
+            this.linesSubject.next(lines);
+        });
     }
 
     connect(collectionViewer: CollectionViewer): Observable<Line[]> {

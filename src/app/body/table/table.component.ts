@@ -33,4 +33,8 @@ export class TableComponent implements OnInit {
         console.log(lineId);
         this.bodyService.deleteLine(lineId);
     }
+
+    calculateTotal() {
+        console.log("Sum");
+    }
 }
