@@ -48,7 +48,7 @@ export class BodyService {
     }
 
     deleteLine(lineId: string) {
-        this.http.delete(BACKEND_URL + lineId)
+        this.http.delete(BACKEND_URL + "/" + lineId)
             .subscribe(() => {
                 const updatedLines = this.lines.filter(line => line.id !== lineId);
                 this.lines = updatedLines;

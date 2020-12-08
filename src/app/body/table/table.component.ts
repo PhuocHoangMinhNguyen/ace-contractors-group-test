@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
 import { Line } from '../../model/line.model';
 import { BodyService } from '../../services/body.service';
 import { TableDataSource } from './../../services/table.datasource';
@@ -9,13 +8,18 @@ import { TableDataSource } from './../../services/table.datasource';
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit, OnDestroy {
+export class TableComponent implements OnInit {
     line: Line;
-    private linesSub: Subscription;
 
     dataSource: TableDataSource;
 
-    displayedColumns = ['item', 'rate', 'quantity', 'amount'];
+    displayedColumns = [
+        'item',
+        'rate',
+        'quantity',
+        'amount',
+        'action'
+    ];
 
     constructor(private bodyService: BodyService) { }
 
@@ -26,10 +30,7 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     onDelete(lineId: string) {
+        console.log(lineId);
         this.bodyService.deleteLine(lineId);
-    }
-
-    ngOnDestroy() {
-
     }
 }
