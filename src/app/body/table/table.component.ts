@@ -15,7 +15,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
     dataSource: TableDataSource;
 
-    displayedColumns = ['item', 'rate', 'quantity'];
+    displayedColumns = ['item', 'rate', 'quantity', 'amount'];
 
     constructor(private bodyService: BodyService) { }
 

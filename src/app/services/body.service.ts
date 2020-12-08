@@ -22,6 +22,7 @@ export class BodyService {
                         item: line.item,
                         rate: line.rate,
                         quantity: line.quantity,
+                        amount: line.amount,
                         id: line._id
                     }
                 })
@@ -36,7 +37,7 @@ export class BodyService {
     }
 
     addLine(item: string, rate: number, quantity: number) {
-        const line: Line = { id: null, item: item, rate: rate, quantity: quantity };
+        const line: Line = { id: null, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
         this.http.post<{ message: string, lineId: string }>(BACKEND_URL, line)
             .subscribe(responseData => {
                 const id = responseData.lineId;
