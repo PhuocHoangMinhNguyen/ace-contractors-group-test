@@ -10,18 +10,9 @@ import { TableDataSource } from './../../services/table.datasource';
 })
 export class TableComponent implements OnInit {
     line: Line;
-
     totalAmount: Number;
-
     dataSource: TableDataSource;
-
-    displayedColumns = [
-        'item',
-        'rate',
-        'quantity',
-        'amount',
-        'action'
-    ];
+    displayedColumns = ['item', 'rate', 'quantity', 'amount', 'action'];
 
     constructor(private bodyService: BodyService) { }
 
@@ -32,7 +23,7 @@ export class TableComponent implements OnInit {
         this.dataSource.getLines().subscribe(lines => {
             this.totalAmount = lines
                 .reduce((total, line) => total + line.amount, 0)
-        })
+        });
     }
 
     onDelete(lineId: string) {
