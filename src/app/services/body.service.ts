@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
@@ -9,10 +10,11 @@ const BACKEND_URL = "http://localhost:3000/api/lines";
 
 @Injectable({ providedIn: 'root' })
 export class BodyService {
+    isPrinting = false;
     private lines: Line[] = [];
     private linesUpdated = new Subject<Line[]>();
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     getLines() {
         this.http.get<{ message: string, lines: any }>(BACKEND_URL)
@@ -56,7 +58,20 @@ export class BodyService {
             });
     }
 
-    printDocument() {
-        console.log("Print");
+    printDocument(documentName: string, documentData: string[]) {
+        this.isPrinting = true;
+        this.router.navigate(['/', {
+            outlets: {
+                'print': ['print', documentName, documentData.join()]
+            }
+        }]);
+    }
+
+    onDataReady() {
+        setTimeout(() => {
+            window.print();
+            this.isPrinting = false;
+            this.router.navigate([{ outlets: { print: null } }]);
+        })
     }
 }

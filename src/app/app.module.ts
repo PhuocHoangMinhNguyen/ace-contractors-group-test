@@ -10,6 +10,8 @@ import { HeaderComponent } from './header/header.component';
 import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
 import { AppRoutingModule } from './app-routing.module';
+import { DetailsComponent } from './report/details/details.component';
+import { LayoutComponent } from './report/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { AppRoutingModule } from './app-routing.module';
     HeaderComponent,
     LineComponent,
     TableComponent,
+    LayoutComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,
