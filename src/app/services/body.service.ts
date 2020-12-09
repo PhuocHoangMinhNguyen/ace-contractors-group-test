@@ -58,12 +58,10 @@ export class BodyService {
             });
     }
 
-    printDocument(documentName: string, documentData: string[]) {
+    printDocument() {
         this.isPrinting = true;
         this.router.navigate(['/', {
-            outlets: {
-                'print': ['print', documentName, documentData.join()]
-            }
+            outlets: { 'print': ['print'] }
         }]);
     }
 

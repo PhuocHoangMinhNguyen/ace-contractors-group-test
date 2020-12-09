@@ -32,7 +32,6 @@ export class TableComponent implements OnInit {
     }
 
     onPrint() {
-        const invoiceIds = ['101'];
-        this.bodyService.printDocument('invoice', invoiceIds);
+        this.bodyService.printDocument();
     }
 }
