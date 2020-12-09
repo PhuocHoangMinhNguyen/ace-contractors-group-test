@@ -32,6 +32,6 @@ export class TableComponent implements OnInit {
     }
 
     onPrint() {
-        console.log("Print");
+        this.bodyService.printDocument();
     }
 }

@@ -55,4 +55,8 @@ export class BodyService {
                 this.linesUpdated.next([...this.lines])
             });
     }
+
+    printDocument() {
+        console.log("Print");
+    }
 }
