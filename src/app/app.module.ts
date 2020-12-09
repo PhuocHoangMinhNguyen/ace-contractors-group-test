@@ -10,8 +10,8 @@ import { HeaderComponent } from './header/header.component';
 import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ReportComponent } from './report/report.component';
 import { DetailsComponent } from './report/details/details.component';
-import { LayoutComponent } from './report/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { LayoutComponent } from './report/layout/layout.component';
     HeaderComponent,
     LineComponent,
     TableComponent,
-    LayoutComponent,
+    ReportComponent,
     DetailsComponent
   ],
   imports: [
