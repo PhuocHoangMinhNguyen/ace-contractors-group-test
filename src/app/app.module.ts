@@ -9,6 +9,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header.component';
 import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,9 +21,10 @@ import { TableComponent } from './body/table/table.component';
   imports: [
     BrowserModule,
     FormsModule,
-    AngularMaterialModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    AppRoutingModule,
+    AngularMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
