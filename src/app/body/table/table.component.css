@@ -7,3 +7,7 @@
 mat-spinner {
     margin: auto;
 }
+
+.app-print {
+    text-align: right;
+}

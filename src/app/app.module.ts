@@ -9,7 +9,6 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header.component';
 import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
-import { PrintComponent } from './body/print/print.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,6 @@ import { PrintComponent } from './body/print/print.component';
     HeaderComponent,
     LineComponent,
     TableComponent,
-    PrintComponent
   ],
   imports: [
     BrowserModule,

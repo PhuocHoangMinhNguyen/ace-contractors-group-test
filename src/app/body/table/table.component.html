@@ -35,3 +35,6 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     <mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns"></mat-footer-row>
 </mat-table>
+<div class="app-print">
+    <button mat-raised-button color="primary" (click)="onPrint()">Print</button>
+</div>
