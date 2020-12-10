@@ -1,3 +1,5 @@
+// Line component means the component that handles the adding line form.
+
 import { BodyService } from './../../services/body.service';
 import { Component } from "@angular/core";
 import { NgForm } from '@angular/forms';
@@ -11,6 +13,7 @@ import { NgForm } from '@angular/forms';
 export class LineComponent {
     constructor(public bodyService: BodyService) { }
 
+    // Call addLine() function from BodyService.
     onAddLine(form: NgForm) {
         if (form.invalid) {
             return;

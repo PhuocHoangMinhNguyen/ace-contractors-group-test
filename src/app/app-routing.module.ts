@@ -1,3 +1,6 @@
+// Contains all the routes of the web. In this case, 
+// we only have one route leading to another window to download PDF file
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 

@@ -1,3 +1,6 @@
+// All the Angular Material Design components will be stored here 
+// to be exported to app.module.ts
+
 import { NgModule } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';

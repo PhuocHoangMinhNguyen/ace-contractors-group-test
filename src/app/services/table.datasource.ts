@@ -1,3 +1,5 @@
+// Data source that handles loading information to the table.
+
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Line } from '../model/line.model';
@@ -9,6 +11,7 @@ export class TableDataSource implements DataSource<Line> {
 
     constructor(private bodyService: BodyService) { }
 
+    // Load Table data.
     loadTable() {
         this.bodyService.getLines();
         this.bodyService.getLineUpdateListener().subscribe(lines => {
@@ -16,6 +19,7 @@ export class TableDataSource implements DataSource<Line> {
         });
     }
 
+    // Get all the information in the database as an array of lines.
     getLines() {
         return this.linesSubject
     }

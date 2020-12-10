@@ -1,3 +1,5 @@
+// Mongoose works using schema, so this file is like a "blueprint"
+// of how "Line" object looks like
 const mongoose = require("mongoose");
 
 const lineSchema = mongoose.Schema({

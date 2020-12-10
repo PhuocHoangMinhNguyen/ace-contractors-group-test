@@ -1,3 +1,6 @@
+// Contains all the functions that can "communicate" with 
+// other components or back-end funtions
+
 import { Router } from '@angular/router';
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +19,7 @@ export class BodyService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
+    // Get lines data from database.
     getLines() {
         this.http.get<{ message: string, lines: any }>(BACKEND_URL)
             .pipe(map(lineData => {
@@ -38,6 +42,7 @@ export class BodyService {
         return this.linesUpdated.asObservable();
     }
 
+    // Add a new line to the database
     addLine(item: string, rate: number, quantity: number) {
         const line: Line = { id: null, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
         this.http.post<{ message: string, lineId: string }>(BACKEND_URL, line)
@@ -49,6 +54,7 @@ export class BodyService {
             });
     }
 
+    // Delete a line from the database
     deleteLine(lineId: string) {
         this.http.delete(BACKEND_URL + "/" + lineId)
             .subscribe(() => {
@@ -58,6 +64,7 @@ export class BodyService {
             });
     }
 
+    // Loading report.
     printDocument() {
         this.isPrinting = true;
         this.router.navigate(['/', {
@@ -65,6 +72,7 @@ export class BodyService {
         }]);
     }
 
+    // When the report is ready, show a new window allowing user to print the report
     onDataReady() {
         setTimeout(() => {
             window.print();

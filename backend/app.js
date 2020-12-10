@@ -7,6 +7,7 @@ const linesRoutes = require("./routes/lines");
 
 const app = express();
 
+// Connect with MongoDB using mongoose.
 mongoose.connect(
     "mongodb+srv://max:ewKcW28TfrJXGpK3@cluster0.yt8ea.mongodb.net/ace-test?retryWrites=true&w=majority", // MongoDB URL
     { useNewUrlParser: true, useUnifiedTopology: true }
