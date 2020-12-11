@@ -1,5 +1,5 @@
 // Contains all the functions that can "communicate" with 
-// other components or back-end funtions
+// other components or back-end functions
 
 import { Router } from '@angular/router';
 import { Injectable } from "@angular/core";
