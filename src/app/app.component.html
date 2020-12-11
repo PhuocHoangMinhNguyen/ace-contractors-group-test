@@ -1,5 +1,8 @@
-<app-header></app-header>
-<main>
-    <app-line></app-line>
-    <app-table></app-table>
-</main>
+<div [class.isPrinting]="bodyService.isPrinting">
+    <app-header></app-header>
+    <main>
+        <app-line></app-line>
+        <app-table></app-table>
+    </main>
+    <router-outlet name="print"></router-outlet>
+</div>

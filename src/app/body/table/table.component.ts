@@ -22,7 +22,7 @@ export class TableComponent implements OnInit {
     // Columns displayed in the table.
     displayedColumns = ['item', 'rate', 'quantity', 'amount', 'action'];
 
-    constructor(public bodyService: BodyService) { }
+    constructor(private bodyService: BodyService) { }
 
     ngOnInit() {
         this.bodyService.getLines();
