@@ -31,7 +31,7 @@ export class ReportComponent implements OnInit {
         this.bodyService.getLineUpdateListener().subscribe(lines => {
             this.totalAmount = lines
                 .reduce((total, line) => total + line.amount, 0);
-            this.bodyService.onDataReady();
         });
+        setTimeout(() => this.bodyService.onDataReady(), 100);
     }
 }
