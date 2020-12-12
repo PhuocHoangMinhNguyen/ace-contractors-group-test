@@ -1,5 +1,5 @@
 .header, .header-space {
-  height: 200px;
+  height: 170px;
 }
 
 .footer, .footer-space {
@@ -54,6 +54,10 @@ table {
 
 .image {
   width: 150px;
+}
+
+.inside-table {
+  outline-style: solid;
 }
 
 .last-line {

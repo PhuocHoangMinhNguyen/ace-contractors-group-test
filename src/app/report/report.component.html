@@ -11,7 +11,7 @@
             <td>
                 <!-- Body Content -->
                 <div class="content">
-                    <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+                    <mat-table class="inside-table" [dataSource]="dataSource">
                         <ng-container matColumnDef="item">
                             <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
                             <mat-cell *matCellDef="let row">{{row.item}}</mat-cell>
