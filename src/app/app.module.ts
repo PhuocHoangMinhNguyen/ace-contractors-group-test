@@ -11,7 +11,6 @@ import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ReportComponent } from './report/report.component';
-import { DetailsComponent } from './report/details/details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,6 @@ import { DetailsComponent } from './report/details/details.component';
     LineComponent,
     TableComponent,
     ReportComponent,
-    DetailsComponent,
   ],
   imports: [
     BrowserModule,

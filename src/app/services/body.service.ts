@@ -69,7 +69,7 @@ export class BodyService {
         this.isPrinting = true;
         this.router.navigate(['/', {
             outlets: {
-                'print': ['print', 'report']
+                'print': ['report']
             }
         }]);
     }

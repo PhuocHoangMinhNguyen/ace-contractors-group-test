@@ -1,6 +1,7 @@
 // Handle generating report preview to print.
 
 import { Component, OnInit } from "@angular/core";
+import { BodyService } from './../services/body.service';
 
 @Component({
     selector: 'app-report',
@@ -8,7 +9,9 @@ import { Component, OnInit } from "@angular/core";
     styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-    constructor() { }
+    constructor(private bodyService: BodyService) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.bodyService.onDataReady();
+    }
 }
