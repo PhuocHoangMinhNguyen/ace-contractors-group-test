@@ -25,14 +25,12 @@ export class TableComponent implements OnInit {
     constructor(private bodyService: BodyService) { }
 
     ngOnInit() {
-        this.bodyService.getLines();
-        this.dataSource = new TableDataSource(this.bodyService);
-
         // Load table data into dataSource.
+        this.dataSource = new TableDataSource(this.bodyService);
         this.dataSource.loadTable();
 
         // Calculate Total Amount to show in Angular Material Table Footer.
-        this.dataSource.getLines().subscribe(lines => {
+        this.bodyService.getLineUpdateListener().subscribe(lines => {
             this.totalAmount = lines
                 .reduce((total, line) => total + line.amount, 0)
         });

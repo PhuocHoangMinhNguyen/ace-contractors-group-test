@@ -17,3 +17,7 @@
     display: none;
   }
 }
+
+.the-table {
+  min-height: 360px;
+}

@@ -19,11 +19,6 @@ export class TableDataSource implements DataSource<Line> {
         });
     }
 
-    // Get all the information in the database as an array of lines.
-    getLines() {
-        return this.linesSubject
-    }
-
     connect(collectionViewer: CollectionViewer): Observable<Line[]> {
         console.log('Connecting data source');
         return this.linesSubject.asObservable();
