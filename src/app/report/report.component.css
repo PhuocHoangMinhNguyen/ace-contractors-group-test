@@ -29,34 +29,21 @@ table {
   width: 100%;
 }
 
-.header-content {
-  display: flex;
-}
-
 .header-left {
-  
+  width: 100%;
 }
 
 .first-line {
   display: flex;
   align-items: baseline;
-}
-
-.report {
-  width: 290px;
-}
-
-.time {
-  width: 290px;
-  text-align: right;
-}
-
-.header-right {
-  margin-left: 10px;
+  justify-content: space-between; 
+  border-bottom: 1px solid black;
 }
 
 .image {
-  width: 150px;
+  margin-left: 10px;
+  width: 120px;
+  height: 120px;
 }
 
 .inside-table {
