@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 
 export class LineComponent {
-    constructor(public bodyService: BodyService) { }
+    constructor(private bodyService: BodyService) { }
 
     // Call addLine() function from BodyService.
     onAddLine(form: NgForm) {
