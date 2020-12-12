@@ -6,4 +6,9 @@
 
 .app-print {
     text-align: right;
+    margin-bottom: 16px;
+}
+
+.button {
+    margin-bottom: 16px;
 }

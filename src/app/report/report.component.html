@@ -1,40 +1,77 @@
-<thead>
-    <div class="header-space">&nbsp;</div>
-</thead>
-<mat-table class="the-table mat-elevation-z8" [dataSource]="dataSource">
+<table>
+    <thead>
+        <tr>
+            <td>
+                <div class="header-space">&nbsp;</div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <!-- Body Content -->
+                <div class="content">
+                    <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+                        <ng-container matColumnDef="item">
+                            <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.item}}</mat-cell>
+                            <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="rate">
+                            <mat-header-cell *matHeaderCellDef>Item Rate</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.rate}}</mat-cell>
+                            <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="quantity">
+                            <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.quantity}}</mat-cell>
+                            <mat-footer-cell *matFooterCellDef>Total Amount: </mat-footer-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="amount">
+                            <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
+                            <mat-footer-cell *matFooterCellDef>{{ totalAmount }}</mat-footer-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                        <mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns"></mat-footer-row>
+                    </mat-table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <div class="footer-space">&nbsp;</div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
 
-    <ng-container matColumnDef="item">
-        <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.item}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-    </ng-container>
+<!-- Header Content -->
+<div class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <div class="first-line">
+                <h1 class='report'>Report</h1>
+                <div class="time">{{ today }}</div>
+            </div>
+            <hr color="black">
+        </div>
+        <div class="header-right">
+            <img class="image" src="{{aceLogo}}">
+        </div>
+    </div>
+</div>
 
-    <ng-container matColumnDef="rate">
-        <mat-header-cell *matHeaderCellDef>Item Rate</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.rate}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.quantity}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef>Total Amount: </mat-footer-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="amount">
-        <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef>{{ totalAmount }}</mat-footer-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    <mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns"></mat-footer-row>
-
-</mat-table>
-<tfoot>
-    <div class="footer-space">&nbsp;</div>
-</tfoot>
-
-<div class="header">COOL HEADER</div>
-<div class="footer">Ace Contractors Group Pty. Ltd.</div>
+<!-- Footer Content -->
+<div class="footer">
+    <div>Ace Person</div>
+    <h2>Project Manager</h2>
+    <hr color="black">
+    <div class="last-line">
+        <div class="company-name">Ace Contractors Group Pty. Ltd.</div>
+        <div class="abn">ABN 12 345 678 901</div>
+    </div>
+</div>

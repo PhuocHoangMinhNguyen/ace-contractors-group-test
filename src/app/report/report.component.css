@@ -1,15 +1,19 @@
-.header, .header-space, .footer, .footer-space { 
-  height: 100px; 
+.header, .header-space {
+  height: 200px;
 }
 
-.header { 
-  position: fixed; 
-  top: 0; 
+.footer, .footer-space {
+  height: 150px;
 }
 
-.footer { 
-  position: fixed; 
-  bottom: 0; 
+.header {
+  position: fixed;
+  top: 0;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
 }
 
 @media screen {
@@ -18,6 +22,50 @@
   }
 }
 
-.the-table {
-  min-height: 360px;
+table {
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+}
+
+.header-left {
+  
+}
+
+.first-line {
+  display: flex;
+  align-items: baseline;
+}
+
+.report {
+  width: 290px;
+}
+
+.time {
+  width: 290px;
+  text-align: right;
+}
+
+.header-right {
+  margin-left: 10px;
+}
+
+.image {
+  width: 150px;
+}
+
+.last-line {
+  display: flex;
+  flex-direction: row;
+}
+
+.company-name {
+  width: 350px;
+}
+
+.abn {
+  width: 400px;
+  text-align: right;
 }

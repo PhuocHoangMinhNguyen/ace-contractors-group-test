@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { Line } from '../model/line.model';
 import { BodyService } from './../services/body.service';
 import { TableDataSource } from '../services/table.datasource';
+import * as moment from "moment";
 
 @Component({
     selector: 'app-report',
@@ -11,8 +12,10 @@ import { TableDataSource } from '../services/table.datasource';
     styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
+    aceLogo = 'assets/images/ace-contractors-logo.png'
     line: Line;
     totalAmount: Number;
+    today = moment().format('DD/MM/YYYY, h:mm a');
 
     // Lines data to be sent to table.component.html
     dataSource: TableDataSource;
@@ -32,6 +35,6 @@ export class ReportComponent implements OnInit {
             this.totalAmount = lines
                 .reduce((total, line) => total + line.amount, 0);
         });
-        setTimeout(() => this.bodyService.onDataReady(), 100);
+        setTimeout(() => this.bodyService.onDataReady(), 500);
     }
 }
