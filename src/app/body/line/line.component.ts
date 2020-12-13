@@ -20,6 +20,5 @@ export class LineComponent {
         }
         this.bodyService.addLine(form.value.item, form.value.rate, form.value.quantity);
         form.resetForm();
-        //window.location.reload();
     }
 }
