@@ -7,9 +7,10 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
 import { Line } from './../model/line.model';
 
-const BACKEND_URL = "http://localhost:3000/api/lines";
+const BACKEND_URL = environment.apiUrl + "/lines";
 
 @Injectable({ providedIn: 'root' })
 export class BodyService {
