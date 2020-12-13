@@ -44,14 +44,39 @@ export class BodyService {
 
     // Add a new line to the database
     addLine(item: string, rate: number, quantity: number) {
-        const line: Line = { id: null, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
-        this.http.post<{ message: string, lineId: string }>(BACKEND_URL, line)
-            .subscribe(responseData => {
-                const id = responseData.lineId;
-                line.id = id;
-                this.lines.push(line);
-                this.linesUpdated.next([...this.lines]);
-            });
+        let found = null;
+        // Check if "item name" already exists
+        this.lines.forEach(line => {
+            if (line.item == item) {
+                found = line
+            }
+        });
+
+        if (found != null) {
+            let updateRate = found.rate + rate;
+            let updateQuantity = found.quantity + quantity
+            this.updateLine(found.id, found.item, updateRate, updateQuantity);
+        } else {
+            const line: Line = { id: null, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
+            this.http.post<{ message: string, lineId: string }>(BACKEND_URL, line)
+                .subscribe(responseData => {
+                    const id = responseData.lineId;
+                    line.id = id;
+                    this.lines.push(line);
+                    this.linesUpdated.next([...this.lines]);
+                });
+        }
+    }
+
+    updateLine(id: string, item: string, rate: number, quantity: number) {
+        const line: Line = { id: id, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
+        this.http.put(BACKEND_URL + "/" + id, line).subscribe(response => {
+            const updatedLines = [...this.lines];
+            const oldLineIndex = updatedLines.findIndex(p => p.id === line.id);
+            updatedLines[oldLineIndex] = line;
+            this.lines = updatedLines;
+            this.linesUpdated.next([...this.lines]);
+        });
     }
 
     // Delete a line from the database
@@ -60,7 +85,7 @@ export class BodyService {
             .subscribe(() => {
                 const updatedLines = this.lines.filter(line => line.id !== lineId);
                 this.lines = updatedLines;
-                this.linesUpdated.next([...this.lines])
+                this.linesUpdated.next([...this.lines]);
             });
     }
 

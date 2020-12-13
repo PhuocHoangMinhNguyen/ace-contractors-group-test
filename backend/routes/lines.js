@@ -22,6 +22,20 @@ router.post("", (req, res, next) => {
     });
 });
 
+// Update line data from database
+router.put("/:id", (req, res, next) => {
+    const line = new Line({
+        _id: req.body.id,
+        item: req.body.item,
+        rate: req.body.rate,
+        quantity: req.body.quantity
+    });
+    Line.updateOne({ _id: req.params.id }, line).then(result => {
+        console.log(result);
+        res.status(200).json({ message: 'Update successful!' });
+    });
+});
+
 // Get lines data from database.
 router.get("", (req, res, next) => {
     Line.find().then(documents => {
