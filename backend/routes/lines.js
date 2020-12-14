@@ -49,7 +49,6 @@ router.get("", (req, res, next) => {
 // Delete line data from database
 router.delete("/:id", (req, res, next) => {
     Line.deleteOne({ _id: req.params.id }).then(result => {
-        console.log(result);
         res.status(200).json({ message: 'Line deleted!' });
     });
 });

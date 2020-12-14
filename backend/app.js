@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const linesRoutes = require("./routes/lines");
+const Line = require('./models/line');
 
 const app = express();
 
@@ -16,6 +17,8 @@ mongoose.connect(
 }).catch(() => {
     console.log('Connection failed')
 });
+
+Line.watch().on('change', data => console.log(new Date(), data));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
