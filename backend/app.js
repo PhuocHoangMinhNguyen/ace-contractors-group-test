@@ -18,7 +18,9 @@ mongoose.connect(
     console.log('Connection failed')
 });
 
-Line.watch().on('change', data => console.log(new Date(), data));
+Line.watch().on('change', data => {
+    console.log(data);
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
