@@ -6,8 +6,13 @@ const Line = require('../models/line');
 
 const router = express.Router();
 
+// Line.watch().then(result => {
+//     console.log(result);
+// })
+
 // Add new line to database
 router.post("", (req, res, next) => {
+    const io = req.app.get('io');
     const line = new Line({
         item: req.body.item,
         rate: req.body.rate,
@@ -15,6 +20,7 @@ router.post("", (req, res, next) => {
         amount: req.body.amount
     });
     line.save().then(createdLine => {
+        io.emit("changed");
         res.status(201).json({
             message: "Line added successfully",
             lineId: createdLine._id
@@ -24,14 +30,16 @@ router.post("", (req, res, next) => {
 
 // Update line data from database
 router.put("/:id", (req, res, next) => {
+    const io = req.app.get('io');
     const line = new Line({
         _id: req.body.id,
         item: req.body.item,
         rate: req.body.rate,
-        quantity: req.body.quantity
+        quantity: req.body.quantity,
+        amount: req.body.amount
     });
-    Line.updateOne({ _id: req.params.id }, line).then(result => {
-        console.log(result);
+    Line.updateOne({ _id: req.params.id }, line).then(() => {
+        io.emit("changed");
         res.status(200).json({ message: 'Update successful!' });
     });
 });
@@ -48,7 +56,9 @@ router.get("", (req, res, next) => {
 
 // Delete line data from database
 router.delete("/:id", (req, res, next) => {
-    Line.deleteOne({ _id: req.params.id }).then(result => {
+    const io = req.app.get('io');
+    Line.deleteOne({ _id: req.params.id }).then(() => {
+        io.emit("changed");
         res.status(200).json({ message: 'Line deleted!' });
     });
 });

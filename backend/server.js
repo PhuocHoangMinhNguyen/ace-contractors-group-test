@@ -54,8 +54,11 @@ const onListening = () => {
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-// Set up Node.js server.
 const server = http.createServer(app);
+
+const io = require('socket.io')(server);
+app.set('io', io);
+
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);

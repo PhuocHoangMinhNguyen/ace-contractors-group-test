@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Line } from './../model/line.model';
 
-const BACKEND_URL = environment.apiUrl + "/lines";
+const BACKEND_URL = environment.apiUrl + "/lines/";
 
 @Injectable({ providedIn: 'root' })
 export class BodyService {
@@ -31,17 +31,17 @@ export class BodyService {
                         quantity: line.quantity,
                         amount: line.amount,
                         id: line._id
-                    }
-                })
+                    };
+                });
             })).subscribe(transformedLines => {
                 this.lines = transformedLines;
                 this.linesUpdated.next([...this.lines]);
             });
-    }
+    };
 
     getLineUpdateListener() {
         return this.linesUpdated.asObservable();
-    }
+    };
 
     // Add a new line to the database
     addLine(item: string, rate: number, quantity: number) {
@@ -50,12 +50,12 @@ export class BodyService {
         this.lines.forEach(line => {
             if (line.item == item) {
                 found = line
-            }
+            };
         });
 
         if (found != null) {
             let updateRate = found.rate + rate;
-            let updateQuantity = found.quantity + quantity
+            let updateQuantity = found.quantity + quantity;
             this.updateLine(found.id, found.item, updateRate, updateQuantity);
         } else {
             const line: Line = { id: null, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
@@ -66,39 +66,36 @@ export class BodyService {
                     this.lines.push(line);
                     this.linesUpdated.next([...this.lines]);
                 });
-        }
-    }
+        };
+    };
 
     updateLine(id: string, item: string, rate: number, quantity: number) {
         const line: Line = { id: id, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
-        this.http.put(BACKEND_URL + "/" + id, line).subscribe(response => {
+        this.http.put(BACKEND_URL + id, line).subscribe(() => {
             const updatedLines = [...this.lines];
             const oldLineIndex = updatedLines.findIndex(p => p.id === line.id);
             updatedLines[oldLineIndex] = line;
             this.lines = updatedLines;
             this.linesUpdated.next([...this.lines]);
         });
-    }
+    };
 
     // Delete a line from the database
     deleteLine(lineId: string) {
-        this.http.delete(BACKEND_URL + "/" + lineId)
-            .subscribe(() => {
-                const updatedLines = this.lines.filter(line => line.id !== lineId);
-                this.lines = updatedLines;
-                this.linesUpdated.next([...this.lines]);
-            });
-    }
+        this.http.delete(BACKEND_URL + lineId).subscribe(() => {
+            const updatedLines = this.lines.filter(line => line.id !== lineId);
+            this.lines = updatedLines;
+            this.linesUpdated.next([...this.lines]);
+        });
+    };
 
     // Loading report.
     printDocument() {
         this.isPrinting = true;
         this.router.navigate(['/', {
-            outlets: {
-                'print': ['report']
-            }
+            outlets: { 'print': ['report'] }
         }]);
-    }
+    };
 
     // When the report is ready, show a new window allowing user to print the report
     onDataReady() {
@@ -106,6 +103,6 @@ export class BodyService {
             window.print();
             this.isPrinting = false;
             this.router.navigate([{ outlets: { print: null } }]);
-        })
-    }
-}
+        });
+    };
+};

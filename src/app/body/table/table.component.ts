@@ -6,6 +6,7 @@ import { Component, OnInit } from "@angular/core";
 import { Line } from '../../model/line.model';
 import { BodyService } from '../../services/body.service';
 import { TableDataSource } from './../../services/table.datasource';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
     selector: 'app-table',
@@ -22,9 +23,14 @@ export class TableComponent implements OnInit {
     // Columns displayed in the table.
     displayedColumns = ['item', 'rate', 'quantity', 'amount', 'action'];
 
-    constructor(private bodyService: BodyService) { }
+    constructor(private bodyService: BodyService, private socket: Socket) { }
 
     ngOnInit() {
+        this.getTableData();
+        this.socket.on("changed", () => this.getTableData());
+    }
+
+    getTableData() {
         // Load table data into dataSource.
         this.dataSource = new TableDataSource(this.bodyService);
         this.dataSource.loadTable();
@@ -37,13 +43,8 @@ export class TableComponent implements OnInit {
     }
 
     // Delete line using line id.
-    onDelete(lineId: string) {
-        console.log(lineId);
-        this.bodyService.deleteLine(lineId);
-    }
+    onDelete(lineId: string) { this.bodyService.deleteLine(lineId) };
 
     // Print table data as a report.
-    onPrint() {
-        this.bodyService.printDocument();
-    }
+    onPrint() { this.bodyService.printDocument() };
 }
