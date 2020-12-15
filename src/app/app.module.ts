@@ -12,8 +12,9 @@ import { TableComponent } from './body/table/table.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ReportComponent } from './report/report.component';
 
+import { environment } from '../environments/environment';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: environment.appUrl, options: {} };
 
 @NgModule({
   declarations: [
