@@ -1,4 +1,4 @@
-// Handling Error Handling and output for back-end
+// Handling errors, outputs, and WebSocket for back-end
 
 // Import app.js file.
 const app = require("./app");

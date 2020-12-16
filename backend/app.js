@@ -1,3 +1,6 @@
+// This file will hold the Express app, which is still a Node.js server-side app, 
+// just taking advantage of the express features.
+
 const path = require('path');
 const express = require("express");
 const bodyParser = require("body-parser");
