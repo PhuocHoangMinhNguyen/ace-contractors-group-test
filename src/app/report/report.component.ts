@@ -12,7 +12,7 @@ import * as moment from "moment";
     styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-    aceLogo = 'assets/images/ace-contractors-logo.png'
+    aceLogo = 'assets/images/ace-contractors-logo.png';
     line: Line;
     totalAmount: Number;
     today = moment().format('DD/MM/YYYY, h:mm a');

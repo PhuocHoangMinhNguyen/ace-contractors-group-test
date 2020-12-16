@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 // Table component means the component that handles 
 // showing lines contents and
 // calculating total amount of all lines
@@ -23,11 +24,35 @@ export class TableComponent implements OnInit {
     // Columns displayed in the table.
     displayedColumns = ['item', 'rate', 'quantity', 'amount', 'action'];
 
-    constructor(private bodyService: BodyService, private socket: Socket) { }
+    constructor(
+        private bodyService: BodyService,
+        private socket: Socket,
+        private snackBar: MatSnackBar
+    ) { }
 
     ngOnInit() {
         this.getTableData();
-        this.socket.on("changed", () => this.getTableData());
+        this.socket.on("added", (addedLine) => {
+            this.getTableData();
+            this.snackBar.open(`Added ${addedLine.item}`, '', {
+                duration: 3000,
+                verticalPosition: 'top'
+            });
+        });
+        this.socket.on("updated", (updatedLine) => {
+            this.getTableData();
+            this.snackBar.open(`Updated ${updatedLine.item}`, '', {
+                duration: 3000,
+                verticalPosition: 'top'
+            });
+        });
+        this.socket.on("deleted", (deletedItem) => {
+            this.getTableData();
+            this.snackBar.open(`Deleted ${deletedItem}`, '', {
+                duration: 3000,
+                verticalPosition: 'top'
+            });
+        });
     }
 
     getTableData() {
@@ -43,7 +68,7 @@ export class TableComponent implements OnInit {
     }
 
     // Delete line using line id.
-    onDelete(lineId: string) { this.bodyService.deleteLine(lineId) };
+    onDelete(row: any) { this.bodyService.deleteLine(row.id, row.item) };
 
     // Print table data as a report.
     onPrint() { this.bodyService.printDocument() };

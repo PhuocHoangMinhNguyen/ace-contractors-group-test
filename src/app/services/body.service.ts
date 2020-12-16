@@ -81,8 +81,8 @@ export class BodyService {
     };
 
     // Delete a line from the database
-    deleteLine(lineId: string) {
-        this.http.delete(BACKEND_URL + lineId).subscribe(() => {
+    deleteLine(lineId: string, item: string) {
+        this.http.delete(BACKEND_URL + item).subscribe(() => {
             const updatedLines = this.lines.filter(line => line.id !== lineId);
             this.lines = updatedLines;
             this.linesUpdated.next([...this.lines]);

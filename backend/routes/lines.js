@@ -20,7 +20,7 @@ router.post("", (req, res, next) => {
         amount: req.body.amount
     });
     line.save().then(createdLine => {
-        io.emit("changed");
+        io.emit("added", createdLine);
         res.status(201).json({
             message: "Line added successfully",
             lineId: createdLine._id
@@ -39,7 +39,7 @@ router.put("/:id", (req, res, next) => {
         amount: req.body.amount
     });
     Line.updateOne({ _id: req.params.id }, line).then(() => {
-        io.emit("changed");
+        io.emit("updated", line);
         res.status(200).json({ message: 'Update successful!' });
     });
 });
@@ -55,10 +55,10 @@ router.get("", (req, res, next) => {
 });
 
 // Delete line data from database
-router.delete("/:id", (req, res, next) => {
+router.delete("/:item", (req, res, next) => {
     const io = req.app.get('io');
-    Line.deleteOne({ _id: req.params.id }).then(() => {
-        io.emit("changed");
+    Line.deleteOne({ item: req.params.item }).then(() => {
+        io.emit("deleted", req.params.item);
         res.status(200).json({ message: 'Line deleted!' });
     });
 });
