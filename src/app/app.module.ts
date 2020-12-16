@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReportComponent } from './report/report.component';
 
 import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 const config: SocketIoConfig = { url: environment.appUrl, options: {} };
 
@@ -31,7 +32,8 @@ const config: SocketIoConfig = { url: environment.appUrl, options: {} };
     HttpClientModule,
     AppRoutingModule,
     AngularMaterialModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
