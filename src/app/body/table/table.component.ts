@@ -35,21 +35,21 @@ export class TableComponent implements OnInit {
         this.socket.on("added", (addedLine) => {
             this.getTableData();
             this.snackBar.open(`Added ${addedLine.item}`, '', {
-                duration: 3000,
+                duration: 1000,
                 verticalPosition: 'top'
             });
         });
         this.socket.on("updated", (updatedLine) => {
             this.getTableData();
             this.snackBar.open(`Updated ${updatedLine.item}`, '', {
-                duration: 3000,
+                duration: 1000,
                 verticalPosition: 'top'
             });
         });
         this.socket.on("deleted", (deletedItem) => {
             this.getTableData();
             this.snackBar.open(`Deleted ${deletedItem}`, '', {
-                duration: 3000,
+                duration: 1000,
                 verticalPosition: 'top'
             });
         });
