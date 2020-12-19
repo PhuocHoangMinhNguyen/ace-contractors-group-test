@@ -11,7 +11,7 @@ Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd
 5. [Author](#author)
 
 ## Screenshots
-<img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/1.png" width="165" /> <img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/2.png" width="165" />
+<img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/1.png" width="500" /> <img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/2.png" width="500" />
 
 ## Tech/framework Used
 - MEAN Stack - MongoDB + Express.js + Angular + Node.js
