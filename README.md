@@ -32,4 +32,4 @@ You can gain access to the database using this URL: http://acedataentrywebpage.a
 Check out the [User Manual](https://drive.google.com/file/d/1rCnlY_QlXTIxGZ7ovCpVE-jBLlwYFV44/view?usp=sharing)
 
 ## Author
-* **Phuoc Hoang Minh Nguyen** - *Full-stack Web Developer* - [PhuocHoangMinhNguyen](https://github.com/PhuocHoangMinhNguyen)
+**Phuoc Hoang Minh Nguyen** - *Full-stack Web Developer* - [PhuocHoangMinhNguyen](https://github.com/PhuocHoangMinhNguyen)
