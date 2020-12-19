@@ -7,8 +7,13 @@ Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd
 1. [Screenshots](#screenshots)
 2. [Technologies and Framework Used](#technologies-and-framework-used)
 3. [Features](#features)
-4. [How to use?](#how-to-use)
-5. [Author](#author)
+4. [Installation](#installation)
+5. [How to use?](#how-to-use)
+    - [Add Line](#add-line)
+    - [Delete Line](#delete-line)
+    - [Update Line](#update-line)
+    - [Print Report](#print-report)
+6. [Author](#author)
 
 ## Screenshots
 <img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/1.png" width="500" /> <img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/2.png" width="500" />
@@ -20,8 +25,14 @@ Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd
 
 ## Features
 
-## How to use?
+## Installation
 You can gain access to the database using this URL: http://acedataentrywebpage.ap-southeast-2.elasticbeanstalk.com/ 
+
+## How to use?
+#### Add Line
+#### Delete Line
+#### Update Line
+#### Print Report
 
 ## Author
 * **Phuoc Hoang Minh Nguyen** - *Full-stack Web Developer* - [PhuocHoangMinhNguyen](https://github.com/PhuocHoangMinhNguyen)
