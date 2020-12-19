@@ -48,7 +48,7 @@ export class BodyService {
         let found = null;
         // Check if "item name" already exists
         this.lines.forEach(line => {
-            if (line.item == item) {
+            if (line.item == item.trim()) {
                 found = line
             };
         });
@@ -58,7 +58,7 @@ export class BodyService {
             let updateQuantity = found.quantity + quantity;
             this.updateLine(found.id, found.item, updateRate, updateQuantity);
         } else {
-            const line: Line = { id: null, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
+            const line: Line = { id: null, item: item.trim(), rate: rate, quantity: quantity, amount: rate * quantity };
             this.http.post<{ message: string, lineId: string }>(BACKEND_URL, line)
                 .subscribe(responseData => {
                     const id = responseData.lineId;
@@ -70,7 +70,7 @@ export class BodyService {
     };
 
     updateLine(id: string, item: string, rate: number, quantity: number) {
-        const line: Line = { id: id, item: item, rate: rate, quantity: quantity, amount: rate * quantity };
+        const line: Line = { id: id, item: item.trim(), rate: rate, quantity: quantity, amount: rate * quantity };
         this.http.put(BACKEND_URL + id, line).subscribe(() => {
             const updatedLines = [...this.lines];
             const oldLineIndex = updatedLines.findIndex(p => p.id === line.id);
