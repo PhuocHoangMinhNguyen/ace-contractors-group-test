@@ -29,10 +29,7 @@ Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd
 You can gain access to the database using this URL: http://acedataentrywebpage.ap-southeast-2.elasticbeanstalk.com/ 
 
 ## How to use?
-#### Add Line
-#### Delete Line
-#### Update Line
-#### Print Report
+Check out the [User Manual](https://drive.google.com/file/d/1rCnlY_QlXTIxGZ7ovCpVE-jBLlwYFV44/view?usp=sharing)
 
 ## Author
 * **Phuoc Hoang Minh Nguyen** - *Full-stack Web Developer* - [PhuocHoangMinhNguyen](https://github.com/PhuocHoangMinhNguyen)
