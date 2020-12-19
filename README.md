@@ -5,7 +5,7 @@ Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd
 ## Table of Contents
 
 1. [Screenshots](#screenshots)
-2. [Tech/framework Used](#tech-framework-used)
+2. [Technologies and Framework Used](#technologies-and-framework-used)
 3. [Features](#features)
 4. [How to use?](#how-to-use)
 5. [Author](#author)
@@ -13,7 +13,7 @@ Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd
 ## Screenshots
 <img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/1.png" width="500" /> <img src="https://github.com/PhuocHoangMinhNguyen/ace-contractors-group-test/blob/master/screenshots/2.png" width="500" />
 
-## Tech/framework Used
+## Technologies and Framework Used
 - MEAN Stack - MongoDB + Express.js + Angular + Node.js
 - Socket.io
 - Deployment: AWS Elastic Beanstalk.
