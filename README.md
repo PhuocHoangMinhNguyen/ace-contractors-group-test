@@ -1,5 +1,4 @@
 # Data Entry Webpage - ACE Contractors Group
-
 Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd. Recruitment process. It is a webpage allowing users to add, update, or delete lines of information in a table and get the total amount of all lines. It also allows users to print the table as a PDF report. 
 
 ## Table of Contents
