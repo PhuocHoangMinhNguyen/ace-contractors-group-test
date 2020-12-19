@@ -1,27 +1,26 @@
-# AceContractorsGroupTest
+# Data Entry Webpage - ACE Contractors Group
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
+Data Entry Webpage was developed as a part of the ACE Contractors Group Pty. Ltd. Recruitment process. It is a webpage allowing users to add, update, or delete lines of information in a table and get the total amount of all lines. It also allows users to print the table as a PDF report. 
 
-## Development server
+## Table of Contents
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. [Screenshots]
+2. [Tech/framework Used]
+3. [Features]
+4. [How to use?]
+5. [Author](#author)
 
-## Code scaffolding
+## Screenshots
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tech/framework Used
+- MEAN Stack - MongoDB + Express.js + Angular + Node.js
+- Socket.io
+- Deployment: AWS Elastic Beanstalk.
 
-## Build
+## Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## How to use?
+You can gain access to the database using this URL: http://acedataentrywebpage.ap-southeast-2.elasticbeanstalk.com/ 
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Author
+* **Phuoc Hoang Minh Nguyen** - *Full-stack Web Developer* - [PhuocHoangMinhNguyen](https://github.com/PhuocHoangMinhNguyen)
