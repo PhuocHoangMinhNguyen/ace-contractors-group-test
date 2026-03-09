@@ -118,9 +118,9 @@ describe('BodyService', () => {
 
       service.addLine('Labour', 50, 1);
       const req = httpMock.expectOne(r => r.method === 'PUT');
-      expect(req.request.body.rate).toBe(150);     // 100 + 50
+      expect(req.request.body.rate).toBe(100);     // rate stays fixed
       expect(req.request.body.quantity).toBe(3);   // 2 + 1
-      expect(req.request.body.amount).toBe(450);   // 150 * 3
+      expect(req.request.body.amount).toBe(300);   // 100 * 3
       req.flush({});
     });
 
@@ -133,7 +133,7 @@ describe('BodyService', () => {
 
       service.addLine(' Labour ', 50, 1);
       const req = httpMock.expectOne(r => r.method === 'PUT');
-      expect(req.request.body.rate).toBe(150);
+      expect(req.request.body.rate).toBe(100);  // rate stays fixed; only quantity increments
       req.flush({});
     });
 
@@ -201,9 +201,9 @@ describe('BodyService', () => {
   // ── deleteLine ─────────────────────────────────────────────────────────────
 
   describe('deleteLine()', () => {
-    it('makes a DELETE request using the item name (not the id)', () => {
+    it('makes a DELETE request using the line id', () => {
       service.deleteLine('some-id', 'Labour');
-      const req = httpMock.expectOne(BACKEND_URL + 'Labour');
+      const req = httpMock.expectOne(BACKEND_URL + 'some-id');
       expect(req.request.method).toBe('DELETE');
       req.flush({});
     });
@@ -277,5 +277,132 @@ describe('BodyService', () => {
       expect(window.print).not.toHaveBeenCalled();
       tick();
     }));
+  });
+
+  // ── handleLineAdded ────────────────────────────────────────────────────────
+
+  describe('handleLineAdded()', () => {
+    it('appends a new line and emits via linesUpdated', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      ];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineAdded({ _id: '2', item: 'Materials', rate: 50, quantity: 4, amount: 200 });
+
+      expect(emitted.length).toBe(2);
+      expect(emitted[1]).toEqual({ id: '2', item: 'Materials', rate: 50, quantity: 4, amount: 200 });
+    });
+
+    it('does not add a duplicate line (same _id)', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      ];
+      let emitCount = 0;
+      service.getLineUpdateListener().subscribe(() => { emitCount++; });
+
+      service.handleLineAdded({ _id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 });
+
+      expect(emitCount).toBe(0);
+    });
+
+    it('maps _id to id in the stored line', () => {
+      (service as any).lines = [];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineAdded({ _id: 'mongo-99', item: 'Test', rate: 10, quantity: 1, amount: 10 });
+
+      expect(emitted[0].id).toBe('mongo-99');
+      expect((emitted[0] as any)._id).toBeUndefined();
+    });
+  });
+
+  // ── handleLineUpdated ──────────────────────────────────────────────────────
+
+  describe('handleLineUpdated()', () => {
+    it('replaces the matching line and emits', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+        { id: '2', item: 'Materials', rate: 50, quantity: 4, amount: 200 },
+      ];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineUpdated({ _id: '1', item: 'Labour', rate: 200, quantity: 3, amount: 600 });
+
+      expect(emitted.length).toBe(2);
+      expect(emitted[0].rate).toBe(200);
+      expect(emitted[0].quantity).toBe(3);
+      expect(emitted[0].amount).toBe(600);
+    });
+
+    it('accepts id as either _id or id field', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      ];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineUpdated({ id: '1', item: 'Labour', rate: 300, quantity: 1, amount: 300 });
+
+      expect(emitted[0].rate).toBe(300);
+    });
+
+    it('does nothing when the id is not found', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      ];
+      let emitCount = 0;
+      service.getLineUpdateListener().subscribe(() => { emitCount++; });
+
+      service.handleLineUpdated({ _id: 'nonexistent', item: 'X', rate: 1, quantity: 1, amount: 1 });
+
+      expect(emitCount).toBe(0);
+    });
+  });
+
+  // ── handleLineDeleted ──────────────────────────────────────────────────────
+
+  describe('handleLineDeleted()', () => {
+    it('removes the line with the matching id and emits', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+        { id: '2', item: 'Materials', rate: 50, quantity: 4, amount: 200 },
+      ];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineDeleted({ id: '1', item: 'Labour' });
+
+      expect(emitted.length).toBe(1);
+      expect(emitted[0].id).toBe('2');
+    });
+
+    it('handles payload with null item (fallback when doc not found)', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      ];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineDeleted({ id: '1', item: null });
+
+      expect(emitted.length).toBe(0);
+    });
+
+    it('does nothing when id is not in local state', () => {
+      (service as any).lines = [
+        { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      ];
+      let emitted: any[] = [];
+      service.getLineUpdateListener().subscribe(lines => { emitted = lines; });
+
+      service.handleLineDeleted({ id: 'nonexistent', item: 'X' });
+
+      expect(emitted.length).toBe(1);
+      expect(emitted[0].id).toBe('1');
+    });
   });
 });

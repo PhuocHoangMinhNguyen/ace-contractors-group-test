@@ -1,14 +1,250 @@
+.table-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow-x: hidden;
+    overflow-y: visible;
+    margin-bottom: 8px;
+}
+
+/* ── Toolbar ───────────────────────────────────────────── */
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid #e8edf2;
+    background: #fff;
+}
+
+.table-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1565c0;
+}
+
+.title-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #1976d2;
+}
+
+.print-btn {
+    height: 38px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* ── Table layout ──────────────────────────────────────── */
+.table-container {
+    overflow-x: auto;
+    min-height: 300px;
+}
+
 .the-table {
-    min-height: 360px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    width: 100%;
+    min-width: 640px;
 }
 
-.app-print {
+/* ── Header ────────────────────────────────────────────── */
+mat-header-row {
+    background: #f5f7fa !important;
+}
+
+mat-header-cell {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #78909c !important;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+/* ── Data rows ─────────────────────────────────────────── */
+mat-row {
+    border-bottom: 1px solid #f0f4f8 !important;
+    transition: background 0.15s;
+}
+
+mat-row:hover {
+    background: #f5f8ff !important;
+}
+
+mat-row.row-editing {
+    background: #fffde7 !important;
+}
+
+mat-cell {
+    font-size: 14px;
+    color: #263238;
+}
+
+/* ── Category badge ────────────────────────────────────── */
+.cat-badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.cat-labour        { background: #e3f2fd; color: #1565c0; }
+.cat-materials     { background: #fff3e0; color: #e65100; }
+.cat-equipment     { background: #f3e5f5; color: #6a1b9a; }
+.cat-subcontractor { background: #e0f2f1; color: #00695c; }
+.cat-overhead      { background: #fce4ec; color: #880e4f; }
+.cat-other         { background: #eceff1; color: #455a64; }
+
+/* ── Amount cell ───────────────────────────────────────── */
+.amount-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.amount-value {
+    font-variant-numeric: tabular-nums;
+}
+
+.gst-pill {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    background: #e8f5e9;
+    color: #2e7d32;
+    white-space: nowrap;
+    cursor: default;
+}
+
+/* ── Footer ────────────────────────────────────────────── */
+.sticky-footer {
+    background: #f0f4fa !important;
+    border-top: 2px solid #c5cae9 !important;
+    position: sticky;
+    bottom: 0;
+    min-height: 80px;
+    height: auto !important;
+    align-items: flex-start !important;
+}
+
+mat-footer-cell {
+    font-size: 14px;
+    color: #263238;
+    min-height: 80px;
+    height: auto !important;
+    align-items: flex-start !important;
+    padding-top: 8px;
+}
+
+.totals-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px 0;
+    width: 100%;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #546e7a;
+}
+
+.total-row .total-label {
+    white-space: nowrap;
+}
+
+.total-row .total-val {
+    font-variant-numeric: tabular-nums;
     text-align: right;
-    margin-bottom: 16px;
 }
 
-.button {
-    margin-bottom: 16px;
+.total-row.grand-total {
+    padding-top: 5px;
+    border-top: 1px solid #b0bec5;
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a237e;
+}
+
+/* ── Inline edit fields ────────────────────────────────── */
+.edit-field-cat {
+    width: 130px;
+}
+
+.edit-field-lg {
+    width: 100%;
+    max-width: 220px;
+}
+
+.edit-field-sm {
+    width: 80px;
+}
+
+.edit-field-xs {
+    width: 64px;
+}
+
+/* ── Edit action column ────────────────────────────────── */
+.edit-action-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    padding: 4px 0;
+}
+
+.tax-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.save-cancel {
+    display: flex;
+    align-items: center;
+}
+
+/* ── Paginator ─────────────────────────────────────────── */
+mat-paginator {
+    border-top: 1px solid #e8edf2;
+    border-radius: 0 0 12px 12px;
+    background: #fafbfc;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .table-toolbar {
+        padding: 12px 14px;
+    }
+
+    .table-title {
+        font-size: 14px;
+    }
+
+    .print-btn {
+        font-size: 12px;
+        height: 34px;
+        padding: 0 12px;
+    }
+
+    .edit-field-sm {
+        width: 60px;
+    }
+
+    .edit-field-cat {
+        width: 110px;
+    }
 }

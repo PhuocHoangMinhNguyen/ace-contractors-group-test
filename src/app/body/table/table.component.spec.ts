@@ -18,6 +18,7 @@ describe('TableComponent', () => {
 
   const mockSocket = {
     on: (event: string, cb: Function) => { socketCallbacks[event] = cb; },
+    removeListener: (_event: string, _cb: Function) => {},
   };
 
   beforeEach(async () => {
@@ -29,6 +30,10 @@ describe('TableComponent', () => {
       'getLineUpdateListener',
       'deleteLine',
       'printDocument',
+      'handleLineAdded',
+      'handleLineUpdated',
+      'handleLineDeleted',
+      'updateLine',
     ]);
     mockBodyService.getLineUpdateListener.and.returnValue(linesSubject.asObservable());
     mockSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
@@ -62,10 +67,10 @@ describe('TableComponent', () => {
 
   // ── socket event: "added" ──────────────────────────────────────────────────
 
-  it('"added" socket event triggers getLines() again', () => {
-    mockBodyService.getLines.calls.reset();
-    socketCallbacks['added']({ item: 'Labour' });
-    expect(mockBodyService.getLines).toHaveBeenCalled();
+  it('"added" socket event calls handleLineAdded with the payload', () => {
+    const payload = { item: 'Labour' };
+    socketCallbacks['added'](payload);
+    expect(mockBodyService.handleLineAdded).toHaveBeenCalledWith(payload);
   });
 
   it('"added" socket event shows a snackbar with the item name', () => {
@@ -79,10 +84,10 @@ describe('TableComponent', () => {
 
   // ── socket event: "updated" ────────────────────────────────────────────────
 
-  it('"updated" socket event triggers getLines() again', () => {
-    mockBodyService.getLines.calls.reset();
-    socketCallbacks['updated']({ item: 'Materials' });
-    expect(mockBodyService.getLines).toHaveBeenCalled();
+  it('"updated" socket event calls handleLineUpdated with the payload', () => {
+    const payload = { item: 'Materials' };
+    socketCallbacks['updated'](payload);
+    expect(mockBodyService.handleLineUpdated).toHaveBeenCalledWith(payload);
   });
 
   it('"updated" socket event shows a snackbar with the item name', () => {
@@ -96,14 +101,14 @@ describe('TableComponent', () => {
 
   // ── socket event: "deleted" ────────────────────────────────────────────────
 
-  it('"deleted" socket event triggers getLines() again', () => {
-    mockBodyService.getLines.calls.reset();
-    socketCallbacks['deleted']('Equipment');
-    expect(mockBodyService.getLines).toHaveBeenCalled();
+  it('"deleted" socket event calls handleLineDeleted with the payload', () => {
+    const payload = { id: 'eq-id', item: 'Equipment' };
+    socketCallbacks['deleted'](payload);
+    expect(mockBodyService.handleLineDeleted).toHaveBeenCalledWith(payload);
   });
 
   it('"deleted" socket event shows a snackbar with the item name', () => {
-    socketCallbacks['deleted']('Equipment');
+    socketCallbacks['deleted']({ id: 'eq-id', item: 'Equipment' });
     expect(mockSnackBar.open).toHaveBeenCalledWith(
       'Deleted Equipment',
       '',
@@ -137,5 +142,49 @@ describe('TableComponent', () => {
   it('onPrint() calls bodyService.printDocument()', () => {
     component.onPrint();
     expect(mockBodyService.printDocument).toHaveBeenCalled();
+  });
+
+  // ── inline editing ─────────────────────────────────────────────────────────
+
+  it('onEdit() sets editingId and editValues from the row', () => {
+    const row: Line = { id: 'abc', item: 'Labour', rate: 100, quantity: 2, amount: 200 };
+    component.onEdit(row);
+    expect(component.editingId).toBe('abc');
+    expect(component.editValues?.item).toBe('Labour');
+    expect(component.editValues?.rate).toBe(100);
+  });
+
+  it('onCancelEdit() clears editingId and editValues', () => {
+    component.editingId = 'abc';
+    component.editValues = { item: 'Labour', rate: 100, quantity: 2, taxable: false, taxRate: 0, category: 'Other' };
+    component.onCancelEdit();
+    expect(component.editingId).toBeNull();
+    expect(component.editValues).toBeNull();
+  });
+
+  it('onSave() calls bodyService.updateLine and clears edit state', () => {
+    const row: Line = { id: 'abc', item: 'Labour', rate: 100, quantity: 2, amount: 200 };
+    component.onEdit(row);
+    component.onSave(row);
+    expect(mockBodyService.updateLine).toHaveBeenCalledWith('abc', 'Labour', 100, 2, jasmine.any(Object));
+    expect(component.editingId).toBeNull();
+  });
+
+  it('onSave() does nothing when editValues is null', () => {
+    component.editingId = null;
+    component.editValues = null;
+    component.onSave({ id: 'abc', item: 'Labour', rate: 100, quantity: 2, amount: 200 });
+    expect(mockBodyService.updateLine).not.toHaveBeenCalled();
+  });
+
+  // ── subtotal calculation ───────────────────────────────────────────────────
+
+  it('calculates subtotal as the sum of all line amounts', () => {
+    const lines: Line[] = [
+      { id: '1', item: 'Labour', rate: 100, quantity: 2, amount: 200 },
+      { id: '2', item: 'Materials', rate: 50, quantity: 4, amount: 200 },
+    ];
+    linesSubject.next(lines);
+    expect(component.subtotal).toBe(400);
   });
 });

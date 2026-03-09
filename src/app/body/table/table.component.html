@@ -1,43 +1,145 @@
-<mat-table class="the-table mat-elevation-z8" [dataSource]="dataSource">
+<div class="table-card">
+    <div class="table-toolbar">
+        <span class="table-title">
+            <mat-icon class="title-icon">list_alt</mat-icon>
+            Line Items
+        </span>
+        <button class="print-btn" mat-flat-button color="primary" (click)="onPrint()">
+            <mat-icon>print</mat-icon> Print Report
+        </button>
+    </div>
 
-    <ng-container matColumnDef="item">
-        <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.item}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-    </ng-container>
+    <div class="table-container">
+        <mat-table class="the-table" [dataSource]="dataSource" [trackBy]="trackById" matSort>
 
-    <ng-container matColumnDef="rate">
-        <mat-header-cell *matHeaderCellDef>Item Rate</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.rate}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-    </ng-container>
+            <ng-container matColumnDef="category">
+                <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="editingId === row.id; else displayCategory">
+                        <mat-form-field appearance="outline" class="edit-field-cat">
+                            <mat-select [(ngModel)]="editValues.category">
+                                <mat-option *ngFor="let c of categories" [value]="c">{{ c }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-template #displayCategory>
+                        <span class="cat-badge cat-{{ (row.category || 'Other').toLowerCase() }}">
+                            {{ row.category || 'Other' }}
+                        </span>
+                    </ng-template>
+                </mat-cell>
+                <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+            </ng-container>
 
-    <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.quantity}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef>Total Amount: </mat-footer-cell>
-    </ng-container>
+            <ng-container matColumnDef="item">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Item</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="editingId === row.id; else displayItem">
+                        <mat-form-field appearance="outline" class="edit-field-lg">
+                            <input matInput type="text" [(ngModel)]="editValues.item" required minlength="3">
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-template #displayItem>{{ row.item }}</ng-template>
+                </mat-cell>
+                <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+            </ng-container>
 
-    <ng-container matColumnDef="amount">
-        <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
-        <mat-footer-cell *matFooterCellDef>{{ totalAmount }}</mat-footer-cell>
-    </ng-container>
+            <ng-container matColumnDef="rate">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Rate</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="editingId === row.id; else displayRate">
+                        <mat-form-field appearance="outline" class="edit-field-sm">
+                            <input matInput type="number" [(ngModel)]="editValues.rate" min="0">
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-template #displayRate>{{ row.rate | currency:'AUD':'symbol':'1.2-2' }}</ng-template>
+                </mat-cell>
+                <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+            </ng-container>
 
-    <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-            <button mat-button color="warn" (click)="onDelete(row)">DELETE</button>
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-    </ng-container>
+            <ng-container matColumnDef="quantity">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Qty</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="editingId === row.id; else displayQty">
+                        <mat-form-field appearance="outline" class="edit-field-sm">
+                            <input matInput type="number" [(ngModel)]="editValues.quantity" min="0">
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-template #displayQty>{{ row.quantity }}</ng-template>
+                </mat-cell>
+                <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+            </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    <mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns"></mat-footer-row>
+            <ng-container matColumnDef="amount">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <div class="amount-cell">
+                        <span class="amount-value">{{ row.amount | currency:'AUD':'symbol':'1.2-2' }}</span>
+                        <span *ngIf="row.taxable" class="gst-pill"
+                              [matTooltip]="'GST ' + (row.taxRate || 0) + '%'">
+                            GST {{ row.taxRate }}%
+                        </span>
+                    </div>
+                </mat-cell>
+                <mat-footer-cell *matFooterCellDef>
+                    <div class="totals-block">
+                        <div class="total-row">
+                            <span class="total-label">Subtotal</span>
+                            <span class="total-val">{{ subtotal | currency:'AUD':'symbol':'1.2-2' }}</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">GST</span>
+                            <span class="total-val">{{ taxTotal | currency:'AUD':'symbol':'1.2-2' }}</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span class="total-label">Grand Total</span>
+                            <span class="total-val">{{ grandTotal | currency:'AUD':'symbol':'1.2-2' }}</span>
+                        </div>
+                    </div>
+                </mat-footer-cell>
+            </ng-container>
 
-</mat-table>
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="editingId === row.id; else displayActions">
+                        <div class="edit-action-col">
+                            <div class="tax-controls">
+                                <mat-checkbox [(ngModel)]="editValues.taxable" color="primary">GST</mat-checkbox>
+                                <mat-form-field *ngIf="editValues?.taxable" appearance="outline" class="edit-field-xs">
+                                    <input matInput type="number" [(ngModel)]="editValues.taxRate"
+                                           min="0" max="100" placeholder="%">
+                                </mat-form-field>
+                            </div>
+                            <div class="save-cancel">
+                                <button mat-icon-button color="primary" (click)="onSave(row)" matTooltip="Save">
+                                    <mat-icon>check_circle</mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="onCancelEdit()" matTooltip="Cancel">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #displayActions>
+                        <button mat-icon-button color="primary" (click)="onEdit(row)" matTooltip="Edit">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="onDelete(row)" matTooltip="Delete">
+                            <mat-icon>delete_outline</mat-icon>
+                        </button>
+                    </ng-template>
+                </mat-cell>
+                <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+            </ng-container>
 
-<div class="app-print">
-    <button class="button" mat-raised-button color="primary" (click)="onPrint()">Print</button>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"
+                     [class.row-editing]="editingId === row.id"></mat-row>
+            <mat-footer-row class="sticky-footer" *matFooterRowDef="displayedColumns"></mat-footer-row>
+
+        </mat-table>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
 </div>

@@ -1,0 +1,75 @@
+<mat-card class="project-card">
+    <mat-card-header>
+        <mat-card-title class="card-title">
+            <mat-icon class="title-icon">folder_open</mat-icon>
+            Projects
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="card-body">
+        <div class="project-select-row">
+            <mat-form-field appearance="outline" class="project-select-field">
+                <mat-label>Active Project</mat-label>
+                <mat-select [value]="selectedProjectId" (selectionChange)="onProjectChange($event.value)">
+                    <mat-option [value]="null">— All Projects —</mat-option>
+                    <mat-option *ngFor="let project of projects" [value]="project.id">
+                        {{ project.name }}
+                        <span class="status-badge" [style.background-color]="statusColors[project.status]">
+                            {{ getStatusLabel(project.status) }}
+                        </span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-stroked-button color="primary" class="new-project-btn" (click)="showCreateForm = !showCreateForm">
+                <mat-icon>{{ showCreateForm ? 'close' : 'add' }}</mat-icon>
+                {{ showCreateForm ? 'Cancel' : 'New Project' }}
+            </button>
+        </div>
+
+        <!-- Create new project form -->
+        <div *ngIf="showCreateForm" class="create-form">
+            <mat-form-field appearance="outline" class="create-input">
+                <mat-label>Project Name</mat-label>
+                <input matInput [(ngModel)]="newProjectName" placeholder="Enter project name" (keydown.enter)="onCreateProject()">
+                <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="onCreateProject()" [disabled]="!newProjectName.trim()">
+                <mat-icon>check</mat-icon> Create
+            </button>
+            <button mat-button (click)="showCreateForm = false; newProjectName = ''">Cancel</button>
+        </div>
+
+        <!-- Status actions for selected project -->
+        <div *ngIf="selectedProjectId" class="status-panel">
+            <ng-container *ngFor="let project of projects">
+                <ng-container *ngIf="project.id === selectedProjectId">
+                    <div class="status-row">
+                        <span class="status-label">Status:</span>
+                        <span class="status-badge-lg" [style.background-color]="statusColors[project.status]">
+                            <mat-icon class="status-icon">{{ statusIcons[project.status] }}</mat-icon>
+                            {{ getStatusLabel(project.status) }}
+                        </span>
+                    </div>
+                    <div class="action-buttons">
+                        <button mat-stroked-button *ngIf="project.status === 'draft'" (click)="onUpdateStatus(project, 'sent', $event)" color="primary" class="action-btn">
+                            <mat-icon>send</mat-icon> Mark Sent
+                        </button>
+                        <button mat-stroked-button *ngIf="project.status === 'sent'" (click)="onUpdateStatus(project, 'approved', $event)" color="accent" class="action-btn">
+                            <mat-icon>check_circle</mat-icon> Approve
+                        </button>
+                        <button mat-stroked-button *ngIf="project.status === 'approved'" (click)="onUpdateStatus(project, 'paid', $event)" color="primary" class="action-btn">
+                            <mat-icon>paid</mat-icon> Mark Paid
+                        </button>
+                        <button mat-stroked-button (click)="downloadPdf(project, $event)" color="primary" class="action-btn">
+                            <mat-icon>picture_as_pdf</mat-icon> Invoice PDF
+                        </button>
+                        <button mat-stroked-button color="warn" (click)="onDeleteProject(project, $event)" class="action-btn">
+                            <mat-icon>delete_outline</mat-icon> Delete
+                        </button>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </mat-card-content>
+</mat-card>

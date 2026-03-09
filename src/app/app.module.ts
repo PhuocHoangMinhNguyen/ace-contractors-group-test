@@ -11,6 +11,7 @@ import { LineComponent } from './body/line/line.component';
 import { TableComponent } from './body/table/table.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ReportComponent } from './report/report.component';
+import { ProjectSelectorComponent } from './projects/project-selector/project-selector.component';
 
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -24,6 +25,7 @@ const config: SocketIoConfig = { url: environment.appUrl, options: {} };
     LineComponent,
     TableComponent,
     ReportComponent,
+    ProjectSelectorComponent,
   ],
   imports: [
     BrowserModule,

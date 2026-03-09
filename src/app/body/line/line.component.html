@@ -1,19 +1,57 @@
-<mat-card class="mat-elevation-z8 app-line">
-    <form (submit)="onAddLine(lineForm)" #lineForm='ngForm'>
-        <mat-form-field>
-            <input matInput type="text" name="item" ngModel required minlength="3" placeholder="Item" #item="ngModel">
-            <mat-error *ngIf="item.invalid">Please enter an item.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput type="number" name="rate" ngModel required minlength="3" placeholder="Item rate"
-                #rate="ngModel">
-            <mat-error *ngIf="rate.invalid">Please enter an item rate.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput type="number" name="quantity" ngModel required minlength="3" placeholder="Quantity"
-                #quantity="ngModel">
-            <mat-error *ngIf="rate.invalid">Please enter a quantity.</mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Add</button>
-    </form>
+<mat-card class="app-line">
+    <mat-card-header>
+        <mat-card-title class="card-title">
+            <mat-icon class="title-icon">add_circle_outline</mat-icon>
+            Add Line Item
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form (submit)="onAddLine(lineForm)" #lineForm="ngForm" class="line-form">
+            <mat-form-field appearance="outline" class="field-item">
+                <mat-label>Item Description</mat-label>
+                <input matInput type="text" name="item" ngModel required minlength="3" #item="ngModel">
+                <mat-error *ngIf="item.invalid">Please enter an item (min 3 characters).</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-rate">
+                <mat-label>Rate ($)</mat-label>
+                <input matInput type="number" name="rate" ngModel required min="0" #rate="ngModel">
+                <mat-error *ngIf="rate.invalid">Please enter a rate.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-qty">
+                <mat-label>Quantity</mat-label>
+                <input matInput type="number" name="quantity" ngModel required min="0" #quantity="ngModel">
+                <mat-error *ngIf="quantity.invalid">Please enter a quantity.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-category">
+                <mat-label>Category</mat-label>
+                <mat-select name="category" ngModel>
+                    <mat-option value="Labour">Labour</mat-option>
+                    <mat-option value="Materials">Materials</mat-option>
+                    <mat-option value="Equipment">Equipment</mat-option>
+                    <mat-option value="Subcontractor">Subcontractor</mat-option>
+                    <mat-option value="Overhead">Overhead</mat-option>
+                    <mat-option value="Other">Other</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-taxrate">
+                <mat-label>Tax Rate (%)</mat-label>
+                <input matInput type="number" name="taxRate" ngModel min="0" max="100" #taxRate="ngModel">
+                <mat-error *ngIf="taxRate.invalid">Must be 0–100.</mat-error>
+            </mat-form-field>
+
+            <div class="field-taxable">
+                <mat-checkbox name="taxable" ngModel color="primary">Taxable</mat-checkbox>
+            </div>
+
+            <div class="field-submit">
+                <button mat-flat-button color="primary" type="submit">
+                    <mat-icon>add</mat-icon> Add Item
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
 </mat-card>
