@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/report/report.component.css"],
+  "sourcesContent": [".header, .header-space {\r\n  height: 160px;\r\n}\r\n\r\n.footer, .footer-space {\r\n  width: 100%;\r\n  height: 150px;\r\n  margin-top: 50px;\r\n}\r\n\r\n.header {\r\n  display: flex;\r\n  width: 100%;\r\n  position: fixed;\r\n  top: 0;\r\n}\r\n\r\n.footer {\r\n  position: fixed;\r\n  bottom: 0;\r\n}\r\n\r\n@media screen {\r\n  :host {\r\n    display: none;\r\n  }\r\n}\r\n\r\ntable {\r\n  width: 100%;\r\n}\r\n\r\n.header-left {\r\n  width: 100%;\r\n}\r\n\r\n.first-line {\r\n  display: flex;\r\n  align-items: baseline;\r\n  justify-content: space-between; \r\n  border-bottom: 1px solid black;\r\n}\r\n\r\n.image {\r\n  margin-left: 10px;\r\n  width: 120px;\r\n  height: 120px;\r\n}\r\n\r\n.inside-table {\r\n  /* outline-style: solid; */\r\n}\r\n\r\n.last-line {\r\n  display: flex;\r\n  justify-content: space-between; \r\n  border-top: 1px solid black;\r\n}"],
+  "mappings": ";AAAA,CAAC;AAAQ,CAAC;AACR,UAAQ;AACV;AAEA,CAAC;AAAQ,CAAC;AACR,SAAO;AACP,UAAQ;AACR,cAAY;AACd;AAEA,CAVC;AAWC,WAAS;AACT,SAAO;AACP,YAAU;AACV,OAAK;AACP;AAEA,CAbC;AAcC,YAAU;AACV,UAAQ;AACV;AAEA,OAAO;AACL;AACE,aAAS;AACX;AACF;AAEA;AACE,SAAO;AACT;AAEA,CAAC;AACC,SAAO;AACT;AAEA,CAAC;AACC,WAAS;AACT,eAAa;AACb,mBAAiB;AACjB,iBAAe,IAAI,MAAM;AAC3B;AAEA,CAAC;AACC,eAAa;AACb,SAAO;AACP,UAAQ;AACV;AAEA,CAAC;AAED;AAEA,CAAC;AACC,WAAS;AACT,mBAAiB;AACjB,cAAY,IAAI,MAAM;AACxB;",
+  "names": []
+}

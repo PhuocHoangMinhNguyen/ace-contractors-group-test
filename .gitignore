@@ -7,6 +7,9 @@
 # Only exists if Bazel was run
 /bazel-out
 
+# Angular cache
+/.angular/cache
+
 # dependencies
 /node_modules
 
@@ -38,9 +41,15 @@ speed-measure-plugin*.json
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
 testem.log
 /typings
+
+# environment files
+.env
 
 # System Files
 .DS_Store
 Thumbs.db
+
+.claude/settings.local.json

@@ -56,7 +56,10 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-const io = require('socket.io')(server);
+const { Server } = require('socket.io');
+const io = new Server(server, {
+    cors: { origin: "*" }
+});
 app.set('io', io);
 
 server.on("error", onError);

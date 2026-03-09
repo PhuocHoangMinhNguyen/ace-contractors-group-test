@@ -4,9 +4,10 @@ import { Component, OnInit } from "@angular/core";
 import { Line } from '../model/line.model';
 import { BodyService } from './../services/body.service';
 import { TableDataSource } from '../services/table.datasource';
-import * as moment from "moment";
+import moment from "moment";
 
 @Component({
+    standalone: false,
     selector: 'app-report',
     templateUrl: './report.component.html',
     styleUrls: ['./report.component.css']
