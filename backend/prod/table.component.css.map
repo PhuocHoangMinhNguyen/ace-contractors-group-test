@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/body/table/table.component.css"],
+  "sourcesContent": [".the-table {\r\n    min-height: 360px;\r\n    margin-top: 10px;\r\n    margin-bottom: 20px;\r\n}\r\n\r\n.app-print {\r\n    text-align: right;\r\n    margin-bottom: 16px;\r\n}\r\n\r\n.button {\r\n    margin-bottom: 16px;\r\n}"],
+  "mappings": ";AAAA,CAAC;AACG,cAAY;AACZ,cAAY;AACZ,iBAAe;AACnB;AAEA,CAAC;AACG,cAAY;AACZ,iBAAe;AACnB;AAEA,CAAC;AACG,iBAAe;AACnB;",
+  "names": []
+}

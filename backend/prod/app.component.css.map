@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/app.component.css"],
+  "sourcesContent": ["main {\r\n    margin-top: 16px;\r\n    margin-bottom: 16px;\r\n    width: 80%;\r\n    margin: 1rem auto;\r\n}"],
+  "mappings": ";AAAA;AACI,cAAY;AACZ,iBAAe;AACf,SAAO;AACP,UAAQ,KAAK;AACjB;",
+  "names": []
+}

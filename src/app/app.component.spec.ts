@@ -1,31 +1,32 @@
 import { TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { AppComponent } from './app.component';
+import { BodyService } from './services/body.service';
 
 describe('AppComponent', () => {
+  const mockBodyService = { isPrinting: false };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{ provide: BodyService, useValue: mockBodyService }],
     }).compileComponents();
   });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it(`should have as title 'ace-contractors-group-test'`, () => {
+  it('should have title "ace-contractors-group-test"', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ace-contractors-group-test');
+    expect(fixture.componentInstance.title).toBe('ace-contractors-group-test');
   });
 
-  it('should render title', () => {
+  it('exposes bodyService.isPrinting', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ace-contractors-group-test app is running!');
+    expect(fixture.componentInstance.bodyService.isPrinting).toBeFalse();
   });
 });

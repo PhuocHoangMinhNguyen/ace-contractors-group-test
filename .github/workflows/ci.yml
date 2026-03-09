@@ -1,0 +1,184 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  # ── Lint ──────────────────────────────────────────────────────────────────
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run lint
+
+  # ── Backend tests (Jest + mongodb-memory-server) ───────────────────────────
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache MongoDB binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mongodb-memory-server
+          key: mongodb-memory-server-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm run test:server
+
+  # ── Frontend tests (Karma + ChromeHeadless) ────────────────────────────────
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run Karma tests (ChromeHeadless)
+        run: pnpm exec ng test --watch=false --browsers=ChromeHeadless
+
+  # ── Security scans ─────────────────────────────────────────────────────────
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Dependency audit
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # Only scan source and backend; skip build artifacts and tests
+          paths-ignore: backend/prod
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+
+  # ── Claude Code Review (PR only, optimized) ────────────────────────────────
+  claude-review:
+    name: Claude Code Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Identify changed source files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -E '\.(ts|js)$' \
+            | grep -v -E '\.(spec|test)\.' \
+            | grep -v 'backend/prod/' \
+            | head -20 \
+            | tr '\n' ' ')
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Generate diff of changed source files
+        id: diff
+        if: steps.changed.outputs.files != ''
+        run: |
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- ${{ steps.changed.outputs.files }} | head -c 20000)
+          # Escape for JSON embedding
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Claude Code Review
+        if: steps.changed.outputs.files != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DIFF="${{ steps.diff.outputs.diff }}"
+          FILES="${{ steps.changed.outputs.files }}"
+
+          RESPONSE=$(curl -sf https://api.anthropic.com/v1/messages \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "content-type: application/json" \
+            -d "$(jq -n \
+              --arg diff "$DIFF" \
+              --arg files "$FILES" \
+              '{
+                model: "claude-haiku-4-5-20251001",
+                max_tokens: 1024,
+                system: "You are a senior code reviewer. Review only the provided diff. Flag real bugs, security issues (XSS, injection, auth flaws), and broken logic. Skip style comments. Be concise.",
+                messages: [{
+                  role: "user",
+                  content: ("Files changed: " + $files + "\n\nDiff:\n" + $diff)
+                }]
+              }')")
+
+          COMMENT=$(echo "$RESPONSE" | jq -r '.content[0].text // "Claude review unavailable."')
+
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "## Claude Code Review
+
+$COMMENT
+
+---
+*Reviewed files: ${{ steps.changed.outputs.files }}*"
+
+      - name: No source files changed
+        if: steps.changed.outputs.files == ''
+        run: echo "No source files changed — skipping Claude review."

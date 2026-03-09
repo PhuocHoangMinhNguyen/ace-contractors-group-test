@@ -5,6 +5,7 @@ import { Component } from "@angular/core";
 import { NgForm } from '@angular/forms';
 
 @Component({
+    standalone: false,
     selector: 'app-line',
     templateUrl: './line.component.html',
     styleUrls: ['./line.component.css']

@@ -10,6 +10,7 @@ import { TableDataSource } from './../../services/table.datasource';
 import { Socket } from 'ngx-socket-io';
 
 @Component({
+    standalone: false,
     selector: 'app-table',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.css']
