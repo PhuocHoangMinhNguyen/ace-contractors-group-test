@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/app.component.css"],
-  "sourcesContent": ["main {\r\n    max-width: 1280px;\r\n    width: 100%;\r\n    margin: 0 auto;\r\n    padding: 20px 24px 32px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n@media (max-width: 768px) {\r\n    main {\r\n        padding: 12px 12px 24px;\r\n    }\r\n}\r\n\r\n@media (max-width: 480px) {\r\n    main {\r\n        padding: 8px 8px 20px;\r\n    }\r\n}\r\n"],
-  "mappings": ";AAAA;AACI,aAAW;AACX,SAAO;AACP,UAAQ,EAAE;AACV,WAAS,KAAK,KAAK;AACnB,cAAY;AAChB;AAEA,QAAO,WAAY;AACf;AACI,aAAS,KAAK,KAAK;AACvB;AACJ;AAEA,QAAO,WAAY;AACf;AACI,aAAS,IAAI,IAAI;AACrB;AACJ;",
-  "names": []
-}
