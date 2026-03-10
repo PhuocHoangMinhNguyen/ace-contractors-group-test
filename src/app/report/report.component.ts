@@ -1,10 +1,11 @@
 // Handle generating report preview to print.
 
 import { Component, OnInit } from "@angular/core";
+import { take } from 'rxjs/operators';
 import { Line } from '../model/line.model';
 import { BodyService } from './../services/body.service';
 import { TableDataSource } from '../services/table.datasource';
-import moment from "moment";
+import { format } from 'date-fns';
 
 @Component({
     standalone: false,
@@ -16,7 +17,7 @@ export class ReportComponent implements OnInit {
     aceLogo = 'assets/images/ace-contractors-logo.png';
     line: Line;
     totalAmount: Number;
-    today = moment().format('DD/MM/YYYY, h:mm a');
+    today = format(new Date(), 'dd/MM/yyyy, h:mm a');
 
     // Lines data to be sent to table.component.html
     dataSource: TableDataSource;
@@ -31,11 +32,10 @@ export class ReportComponent implements OnInit {
         this.dataSource = new TableDataSource(this.bodyService);
         this.dataSource.loadTable();
 
-        // Calculate Total Amount to show in Angular Material Table Footer.
-        this.bodyService.getLineUpdateListener().subscribe(lines => {
-            this.totalAmount = lines
-                .reduce((total, line) => total + line.amount, 0);
+        // Wait for data to arrive, then trigger print (no arbitrary timeout)
+        this.bodyService.getLineUpdateListener().pipe(take(1)).subscribe(lines => {
+            this.totalAmount = lines.reduce((total, line) => total + line.amount, 0);
+            this.bodyService.onDataReady();
         });
-        setTimeout(() => this.bodyService.onDataReady(), 500);
     }
 }

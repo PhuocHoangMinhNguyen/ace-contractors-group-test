@@ -1,8 +1,96 @@
-mat-form-field {
-    width: 25%;
-    margin-right: 25px;
+.app-line {
+    margin-bottom: 16px;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+    background: #fff;
 }
 
-.app-line {
-    margin-bottom: 10px;
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1565c0;
+}
+
+.title-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #1976d2;
+}
+
+.line-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr auto auto;
+    gap: 0 16px;
+    align-items: center;
+    padding-top: 8px;
+}
+
+.field-taxable {
+    display: flex;
+    align-items: center;
+    padding-bottom: 22px;
+    white-space: nowrap;
+}
+
+.field-submit {
+    display: flex;
+    align-items: center;
+    padding-bottom: 22px;
+}
+
+.field-submit button {
+    height: 46px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Tablet: 3 columns */
+@media (max-width: 1100px) {
+    .line-form {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0 12px;
+    }
+    .field-item {
+        grid-column: 1 / -1;
+    }
+    .field-submit {
+        grid-column: 1 / -1;
+        padding-bottom: 8px;
+        justify-content: flex-end;
+    }
+    .field-submit button {
+        width: 100%;
+    }
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 680px) {
+    .line-form {
+        grid-template-columns: 1fr 1fr;
+        gap: 0 8px;
+    }
+    .field-item {
+        grid-column: 1 / -1;
+    }
+    .field-submit {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Small mobile: 1 column */
+@media (max-width: 400px) {
+    .line-form {
+        grid-template-columns: 1fr;
+    }
+    .field-item,
+    .field-submit {
+        grid-column: 1;
+    }
 }

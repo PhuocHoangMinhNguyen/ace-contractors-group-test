@@ -5,5 +5,9 @@ export interface Line {
     item: string;
     rate: number;
     quantity: number;
-    amount: number
+    amount: number;
+    taxable?: boolean;
+    taxRate?: number;
+    category?: 'Labour' | 'Materials' | 'Equipment' | 'Subcontractor' | 'Overhead' | 'Other';
+    projectId?: string;
 }

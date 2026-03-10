@@ -1,6 +1,19 @@
 main {
-    margin-top: 16px;
-    margin-bottom: 16px;
-    width: 80%;
-    margin: 1rem auto;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 24px 32px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 12px 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 8px 8px 20px;
+    }
 }

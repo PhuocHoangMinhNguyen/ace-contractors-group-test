@@ -30,6 +30,7 @@ const onError = error => {
     if (error.syscall !== "listen") {
         throw error;
     }
+    const addr = server.address();
     const bind = typeof addr === "string" ? "pipe " + addr : "port " + port;
     switch (error.code) {
         case "EACCES":
@@ -56,9 +57,10 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:4200';
 const { Server } = require('socket.io');
 const io = new Server(server, {
-    cors: { origin: "*" }
+    cors: { origin: CORS_ORIGIN }
 });
 app.set('io', io);
 

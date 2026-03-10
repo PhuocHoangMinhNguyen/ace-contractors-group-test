@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -40,19 +40,19 @@ describe('ReportComponent', () => {
     expect(mockBodyService.getLines).toHaveBeenCalled();
   });
 
-  it('ngOnInit calls onDataReady() after 500 ms', fakeAsync(() => {
+  it('ngOnInit calls onDataReady() when lines are emitted', () => {
     fixture.detectChanges();
     expect(mockBodyService.onDataReady).not.toHaveBeenCalled();
-    tick(500);
+    linesSubject.next([]);
     expect(mockBodyService.onDataReady).toHaveBeenCalled();
-  }));
+  });
 
-  it('ngOnInit does not call onDataReady() before 500 ms elapses', fakeAsync(() => {
+  it('ngOnInit calls onDataReady() only once due to take(1)', () => {
     fixture.detectChanges();
-    tick(499);
-    expect(mockBodyService.onDataReady).not.toHaveBeenCalled();
-    tick(1); // cleanup
-  }));
+    linesSubject.next([]);
+    linesSubject.next([]);
+    expect(mockBodyService.onDataReady).toHaveBeenCalledTimes(1);
+  });
 
   it('calculates totalAmount as the sum of all line amounts', () => {
     fixture.detectChanges();
