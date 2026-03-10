@@ -26,8 +26,8 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 // Gzip compression for all responses (~70% bandwidth reduction)
 app.use(compression());
 
-// Security headers
-app.use(helmet());
+// Security headers (CSP disabled — Angular inline onload attrs conflict with strict CSP)
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // CORS must be registered before static and route middleware
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:4200';
